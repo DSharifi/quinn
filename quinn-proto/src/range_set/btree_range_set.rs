@@ -12,10 +12,10 @@ use std::{
 
 /// A set of u64 values optimized for long runs and random insert/delete/contains
 #[derive(Debug, Default, Clone)]
-pub(crate) struct RangeSet(BTreeMap<u64, u64>);
+pub struct RangeSet(BTreeMap<u64, u64>);
 
 impl RangeSet {
-    pub(crate) fn new() -> Self {
+    pub fn new() -> Self {
         Default::default()
     }
 
@@ -60,7 +60,7 @@ impl RangeSet {
     }
 
     #[rustversion::since(1.91)]
-    pub(crate) fn insert(&mut self, mut x: Range<u64>) -> bool {
+    pub fn insert(&mut self, mut x: Range<u64>) -> bool {
         if x.is_empty() {
             return false;
         }
@@ -90,7 +90,7 @@ impl RangeSet {
     }
 
     #[rustversion::before(1.91)]
-    pub(crate) fn insert(&mut self, mut x: Range<u64>) -> bool {
+    pub fn insert(&mut self, mut x: Range<u64>) -> bool {
         if x.is_empty() {
             return false;
         }
@@ -131,9 +131,9 @@ impl RangeSet {
             .map(|(&x, &y)| (x, y))
     }
 
-    #[cfg(test)]
+    // #[cfg(test)]
     #[rustversion::since(1.91)]
-    pub(super) fn remove(&mut self, x: Range<u64>) -> bool {
+    pub fn remove(&mut self, x: Range<u64>) -> bool {
         if x.is_empty() {
             return false;
         }
@@ -176,9 +176,9 @@ impl RangeSet {
         before || after
     }
 
-    #[cfg(test)]
+    // #[cfg(test)]
     #[rustversion::before(1.91)]
-    pub(super) fn remove(&mut self, x: Range<u64>) -> bool {
+    pub fn remove(&mut self, x: Range<u64>) -> bool {
         if x.is_empty() {
             return false;
         }
@@ -298,7 +298,7 @@ impl RangeSet {
     }
 }
 
-pub(crate) struct Iter<'a>(btree_map::Iter<'a, u64, u64>);
+pub struct Iter<'a>(btree_map::Iter<'a, u64, u64>);
 
 impl Iterator for Iter<'_> {
     type Item = Range<u64>;

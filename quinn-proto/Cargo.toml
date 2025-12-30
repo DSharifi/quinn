@@ -14,7 +14,11 @@ workspace = ".."
 # NOTE: Please keep this in sync with the feature list in `.github/workflows/codecov.yml`, see
 # comment in that file for more information.
 default = ["rustls-ring", "tracing-log", "bloom"]
-aws-lc-rs = ["dep:aws-lc-rs", "aws-lc-rs?/aws-lc-sys", "aws-lc-rs?/prebuilt-nasm"]
+aws-lc-rs = [
+    "dep:aws-lc-rs",
+    "aws-lc-rs?/aws-lc-sys",
+    "aws-lc-rs?/prebuilt-nasm",
+]
 aws-lc-rs-fips = ["aws-lc-rs", "aws-lc-rs?/fips"]
 # Enables BloomTokenLog, and uses it by default
 bloom = ["dep:fastbloom"]
@@ -39,7 +43,7 @@ qlog = ["dep:qlog"]
 # Internal (PRIVATE!) features used to aid testing.
 # Don't rely on these whatsoever. They may disappear at any time.
 
-__rustls-post-quantum-test =  []
+__rustls-post-quantum-test = []
 
 [dependencies]
 arbitrary = { workspace = true, optional = true }
@@ -64,20 +68,33 @@ rustversion = { workspace = true }
 [target.'cfg(all(target_family = "wasm", target_os = "unknown"))'.dependencies]
 ring = { workspace = true, features = ["wasm32_unknown_unknown_js"] }
 getrandom = { workspace = true, features = ["wasm_js"] }
-rustls-pki-types = { workspace = true, features = ["web"] } # only added as dependency to enforce the `web` feature for this target
+rustls-pki-types = { workspace = true, features = [
+    "web",
+] } # only added as dependency to enforce the `web` feature for this target
 web-time = { workspace = true }
 
 [dev-dependencies]
 assert_matches = { workspace = true }
-hex-literal = { workspace = true  }
+hex-literal = { workspace = true }
 rand_pcg = "0.9"
 rcgen = { workspace = true }
 tracing-subscriber = { workspace = true }
 wasm-bindgen-test = { workspace = true }
+criterion = "0.8.1"
+
+[[bench]]
+name = "my_benchmark"
+harness = false
 
 [lints]
 workspace = true
 
 [package.metadata.docs.rs]
 # all non-default features except fips (cannot build on docs.rs environment)
-features = ["rustls-aws-lc-rs", "rustls-ring", "platform-verifier", "log", "rustls-log"]
+features = [
+    "rustls-aws-lc-rs",
+    "rustls-ring",
+    "platform-verifier",
+    "log",
+    "rustls-log",
+]
